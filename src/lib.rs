@@ -1,7 +1,7 @@
 //! A Rust testing harness for the C implementation.
 // This entire crate is only for tests, so it's all unused without cfg(test)
 #![allow(dead_code)]
-
+#![no_std]
 #[cfg(test)]
 extern crate merlin;
 #[cfg(test)]

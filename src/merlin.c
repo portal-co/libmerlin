@@ -17,9 +17,7 @@
 #define assert(e) do{if(!(e)){}}while(0)
 #endif
 #include <stdint.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
+
 
 /******** The Keccak-f[1600] permutation ********/
 
