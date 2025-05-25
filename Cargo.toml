@@ -8,6 +8,7 @@ description = "A single-file C library providing Merlin transcripts."
 
 [dependencies]
 rand_core = "0.3"
+rand_core_09 = {version="0.9",package="rand_core"}
 
 [dev-dependencies]
 merlin = "1.0"

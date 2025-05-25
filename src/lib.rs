@@ -143,6 +143,23 @@ impl TranscriptRngBuilder {
 
         TranscriptRng { mrng: self.mrng }
     }
+
+    pub fn finalize_09<R>(mut self, rng: &mut R) -> TranscriptRng
+    where
+        R: rand_core_09::RngCore + rand_core_09::CryptoRng,
+    {
+        let random_bytes = {
+            let mut bytes = [0u8; 32];
+            rng.fill_bytes(&mut bytes);
+            bytes
+        };
+
+        unsafe {
+            merlin_rng_finalize(&mut self.mrng, &random_bytes);
+        }
+
+        TranscriptRng { mrng: self.mrng }
+    }
 }
 
 pub struct TranscriptRng {
@@ -170,6 +187,22 @@ impl rand_core::RngCore for TranscriptRng {
     }
 }
 
+impl rand_core_09::RngCore for TranscriptRng {
+    fn next_u32(&mut self) -> u32 {
+        rand_core::impls::next_u32_via_fill(self)
+    }
+
+    fn next_u64(&mut self) -> u64 {
+        rand_core::impls::next_u64_via_fill(self)
+    }
+
+    fn fill_bytes(&mut self, dest: &mut [u8]) {
+        unsafe {
+            merlin_rng_random_bytes(&mut self.mrng, dest.as_mut_ptr(), dest.len());
+        }
+    }
+}
+
 impl Drop for TranscriptRng {
     fn drop(&mut self) {
         unsafe {
@@ -181,11 +214,11 @@ impl Drop for TranscriptRng {
 #[cfg(test)]
 mod tests {
     extern crate std;
-    use std::vec;
     use super::*;
     use rand::Rng;
     use rand_chacha::ChaChaRng;
     use rand_core::{RngCore, SeedableRng};
+    use std::vec;
 
     #[test]
     fn randomized_transcript_conformance() {
