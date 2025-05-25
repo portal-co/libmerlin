@@ -36,6 +36,8 @@ void merlin_transcript_commit_bytes(merlin_transcript* mctx,
                                     const uint8_t* data,
                                     size_t data_len);
 
+#define merlin_transcript_append_message(...) merlin_transcript_commit_bytes(__VA_ARGS__)
+
 void merlin_transcript_challenge_bytes(merlin_transcript* mctx,
                                        const uint8_t* label,
                                        size_t label_len,
@@ -49,6 +51,7 @@ void merlin_rng_commit_witness_bytes(merlin_rng* mrng,
                                      size_t label_len,
                                      const uint8_t* witness,
                                      size_t witness_len);
+#define merlin_rng_rekey_with_witness_bytes(...) merlin_rng_commit_witness_bytes(__VA_ARGS__)
 
 void merlin_rng_finalize(merlin_rng* mrng, const uint8_t entropy[32]);
 
