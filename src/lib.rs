@@ -22,7 +22,7 @@ struct CRng {
     state: [u8; 204],
 }
 
-extern "C" {
+unsafe extern "C" {
     fn merlin_transcript_init(mctx: *mut CTranscript, label: *const u8, label_len: usize);
 
     fn merlin_transcript_commit_bytes(
@@ -238,7 +238,7 @@ mod tests {
 
         for _ in 0..num_operations {
             let op_len = rng.gen_range(0, max_test_data_size);
-            if rng.gen::<bool>() {
+            if rng.r#gen::<bool>() {
                 rng.fill(&mut message_data[0..op_len]);
                 rs_transcript.commit_bytes(b"data", &message_data[0..op_len]);
                 c_transcript.commit_bytes(b"data", &message_data[0..op_len]);
