@@ -11,12 +11,15 @@
  * but not liability.
  */
 #include "merlin.h"
-
+#ifdef HAS_ASSERT
 #include <assert.h>
+#else
+#define assert(e) do{if(!(e)){}}while(0)
+#endif
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
 
 /******** The Keccak-f[1600] permutation ********/
 
@@ -208,8 +211,8 @@ static void strobe128_init(merlin_strobe128* ctx,
                            size_t label_len) {
   uint8_t init[18] = {1,  168, 1,  0,   1,  96, 83, 84, 82,
                       79, 66,  69, 118, 49, 46, 48, 46, 50};
-  memset(ctx->state_bytes, 0, 200);
-  memcpy(ctx->state_bytes, init, 18);
+  __builtin_memset(ctx->state_bytes, 0, 200);
+  __builtin_memcpy(ctx->state_bytes, init, 18);
   keccakf(ctx->state);
   ctx->pos = 0;
   ctx->pos_begin = 0;
@@ -253,7 +256,7 @@ void merlin_transcript_challenge_bytes(merlin_transcript* mctx,
 }
 
 void merlin_rng_init(merlin_rng* mrng, const merlin_transcript* mctx) {
-  memcpy(&mrng->sctx, &mctx->sctx, sizeof(merlin_strobe128));
+  __builtin_memcpy(&mrng->sctx, &mctx->sctx, sizeof(merlin_strobe128));
   mrng->finalized = 0;
 }
 
@@ -289,6 +292,6 @@ void merlin_rng_wipe(merlin_rng* mrng) {
 #ifdef HAVE_EXPLICIT_BZERO
   explicit_bzero(&mrng->sctx, sizeof(merlin_strobe128));
 #else
-  memset(&mrng->sctx, 0, sizeof(merlin_strobe128));
+  __builtin_memset(&mrng->sctx, 0, sizeof(merlin_strobe128));
 #endif
 }
