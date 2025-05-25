@@ -1,6 +1,6 @@
 [package]
 name = "portal-solutions-merlin-c"
-version = "0.1.0"
+version = "0.0.0"
 authors = ["Henry de Valence <hdevalence@hdevalence.ca>","portal solutions"]
 edition = "2024"
 license = "CC0-1.0"
