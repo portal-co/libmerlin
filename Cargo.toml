@@ -1,8 +1,9 @@
 [package]
 name = "portal-solutions-merlin-c"
 version = "0.1.0"
-authors = ["Henry de Valence <hdevalence@hdevalence.ca>"]
+authors = ["Henry de Valence <hdevalence@hdevalence.ca>","portal solutions"]
 edition = "2024"
+license = "CC0-1.0"
 description = "A single-file C library providing Merlin transcripts."
 
 [dependencies]
