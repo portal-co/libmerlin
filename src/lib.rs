@@ -180,6 +180,8 @@ impl Drop for TranscriptRng {
 
 #[cfg(test)]
 mod tests {
+    extern crate std;
+    use std::vec;
     use super::*;
     use rand::Rng;
     use rand_chacha::ChaChaRng;
