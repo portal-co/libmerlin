@@ -2,7 +2,7 @@
 #define MERLIN_H
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <stdint.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 /* XXX can these be made opaque without malloc? */
 
